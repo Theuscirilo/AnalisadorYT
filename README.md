@@ -2,7 +2,7 @@
 ## 🎥 Analisador de Vídeo YouTube com IA  
 Este é um projeto web moderno que permite ao usuário colar uma URL de vídeo do YouTube e obter estatísticas visuais e um resumo automático usando a API da OpenAI.
 
-##🚀 Funcionalidades  
+## 🚀 Funcionalidades  
 🔍 Análise de vídeos do YouTube via URL
 
 🧠 Resumo gerado por inteligência artificial (OpenAI GPT)
@@ -13,7 +13,7 @@ Este é um projeto web moderno que permite ao usuário colar uma URL de vídeo d
 
 🌐 Backend com Flask (Python)
 
-##🛠️ Tecnologias Usadas  
+## 🛠️ Tecnologias Usadas  
 **Frontend:**  
 - HTML5  
 - Tailwind CSS  
