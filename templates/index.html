@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Analisador de Vídeo YouTube</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+</head>
+<body class="min-h-screen bg-gray-50">
+  <div class="container mx-auto px-4 py-8 max-w-4xl">
+    <header class="text-center mb-12">
+      <div class="flex justify-center items-center mb-4">
+        <i class="ri-youtube-fill text-red-600 text-5xl mr-3"></i>
+        <h1 class="text-4xl font-bold text-gray-800">Analisador de Vídeo YouTube</h1>
+      </div>
+      <p class="text-gray-600 max-w-lg mx-auto">
+        Insira a URL de qualquer vídeo do YouTube para obter estatísticas detalhadas e insights úteis.
+      </p>
+    </header>
+
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <div class="flex flex-col md:flex-row gap-4">
+        <input
+          type="text"
+          id="urlInput"
+          class="flex-grow px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all"
+          placeholder="Cole a URL do vídeo do YouTube aqui..."
+        />
+        <button
+          id="analyzeBtn"
+          class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-all flex items-center justify-center gap-2"
+        >
+          <i class="ri-analyse-line"></i>
+          Analisar
+        </button>
+      </div>
+    </div>
+
+    <div id="results" class="hidden bg-white rounded-xl shadow-lg p-6">
+      <h2 class="text-2xl font-semibold mb-4">Resultado da Análise</h2>
+      <img id="thumbnail" src="" alt="Thumbnail do vídeo" class="mb-4 rounded-lg max-w-full" />
+      <div id="analysisText" class="text-gray-700"></div>
+    </div>
+  </div>
+
+<script>
+  function getYouTubeVideoId(url) {
+    const regex = /(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|v\/))([a-zA-Z0-9_-]{11})/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const analyzeBtn = document.getElementById('analyzeBtn');
+
+    analyzeBtn.addEventListener('click', () => {
+      const url = document.getElementById('urlInput').value.trim();
+
+      if (!url) {
+        alert('Por favor, cole uma URL do YouTube');
+        return;
+      }
+
+      const videoId = getYouTubeVideoId(url);
+
+      if (!videoId) {
+        alert('URL inválida do YouTube');
+        return;
+      }
+
+      const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+
+      // Exibe a thumbnail imediatamente
+      const resultsDiv = document.getElementById('results');
+      const thumbnailImg = document.getElementById('thumbnail');
+      const analysisText = document.getElementById('analysisText');
+
+      thumbnailImg.src = thumbnailUrl;
+      analysisText.textContent = "Analisando vídeo, aguarde...";
+      resultsDiv.classList.remove('hidden');
+
+      // Faz a chamada para o backend Flask
+      fetch('/analisar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          analysisText.textContent = `Erro: ${data.error}`;
+        } else {
+          analysisText.textContent = data.resumo;
+        }
+      })
+      .catch(() => {
+        analysisText.textContent = 'Erro ao analisar o vídeo. Tente novamente.';
+      });
+    });
+  });
+</script>
+</body>
+</html>
