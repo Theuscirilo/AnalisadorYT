@@ -1,5 +1,5 @@
 
-## 🎥 Analisador de Vídeo YouTube com IA  
+# 🎥 Analisador de Vídeo YouTube com IA  
 Este é um projeto web moderno que permite ao usuário colar uma URL de vídeo do YouTube e obter estatísticas visuais e um resumo automático usando a API da OpenAI.
 
 ## 🚀 Funcionalidades  
@@ -24,7 +24,7 @@ Este é um projeto web moderno que permite ao usuário colar uma URL de vídeo d
 - Flask  
 - OpenAI API  
 
-# 🖥️ Como Rodar Localmente  
+## 🖥️ Como Rodar Localmente  
 1. Clone o repositório:  
 ```
 git clone https://github.com/seu-usuario/analisador-youtube.git
